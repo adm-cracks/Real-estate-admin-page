@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <link rel = "stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"/>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Home</title>
+    <style>
+      #car:hover{
+      background-color: bisque;
+      transition: .7s;
+  }
+  #car1:hover{
+      background-color: rgba(240, 240, 7, 0.722);
+      transition: .7s;
+  }
+</style>
+  
+</head>
+<body>
+ 
+    <div class="container mt-4">
+   
+      {% include 'head.html' %} 
+          
+<h3 class="text-center mt-4">properties</h3>
+<div class="row mt-md-4">
+
+ 
+  <form action="{% url 'search2' %}" method="post">
+<div class="input-group m-auto" style="width: 20rem;">
+    {% csrf_token %}
+  <input type="search" class="form-control rounded" placeholder="search property" aria-label="Search" name="ser" id="arch" aria-describedby="search-addon" />
+  <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+</div>
+</form>
+</div>
+          <div class="row mt-4">
+          
+            <div class="col-md-4">
+              <form action="{% url 'search' %}" method="post" style="display: block;">
+                {% csrf_token %}
+              <h4>Filter </h4>
+              <select data-mdb-select-init data-mdb-filter="true" name="type">
+                <option value="1BHK">1BHK</option>
+                <option value="2BHK">2BHK</option>
+                <option value="3BHK">3BHK</option>
+                <option value="4BHK">4BHK</option>
+              </select>
+              <select data-mdb-select-init data-mdb-filter="true" name="price">
+                <option value="15000">15k</option>
+                <option value="20000">20k</option>
+                <option value="30000">30k</option>
+                <option value="31000">above 30k</option>
+              </select><span> <button  class="btn btn-primary" type="submit"><i class="fa fa-search" style="font-size:18px;color:rgb(249, 247, 247)"></i></button></span>
+            </form>
+            </div>
+
+
+            <div class="col-md-4"><div class="card" style="width: 18rem;">
+                
+                <div class="card-body">
+                  <h5 class="card-title">property</h5>
+                  <p class="card-text">Total propertys : {{ pro.count }}</p>
+                  <button id="probtn" class="btn btn-primary">view all</button>
+                </div>
+              </div></div>
+            
+            <div class="col-md-4"><div class="card" style="width: 18rem;">
+               
+                <div class="card-body">
+                  <h5 class="card-title">peoples</h5>
+                  <p class="card-text">Total Tenants : {{ user.count }}</p>
+                  <button id="probtn2" class="btn btn-primary">view all</button>
+                </div>
+              </div></div>
+        </div>
+<!--properties-->
+
+        <div class="container mt-4" style="border: 1px solid grey;border-radius: 20px;display: none;" id="div1">
+   
+        
+            
+  <h3 class="text-center mt-4">properties</h3>
+            <div class="row mt-4" style="height: 23rem;overflow: scroll;overflow-x: hidden;overflow-y: scroll;">
+  {% for i in pro %}
+      <div class="col-md-3">
+        <a href="{% url 'pro_view' %}?xnt={{i.id}}" style="text-decoration: none;color: black;">
+            <div class="card" style="width: 18rem;" id="car">
+              <img src="{{i.image.url}}" class="card-img-top" alt="..." style="width: 100%;height: 10rem;">
+              <div class="card-body">
+                <h6 class="card-title">{{i.name}}</h6>
+                <p class="card-text">{{i.address}}</p>
+                <p class="card-text">Loc : {{i.location}} </p>
+                <p class="text-end"> Add on : {{i.add_date|date}}</p>
+              
+               
+                
+              </div>
+            </div></a></div>
+            {% endfor %}
+          </div>
+      </div>
+
+      <!--user-->
+      
+      <div class="container mt-4" style="border: 1px solid grey;border-radius: 20px;display: none;" id="div2">
+   
+        
+            
+        <h3 class="text-center mt-4">peoples</h3>
+                  <div class="row mt-4" style="height: 23rem;overflow: scroll;overflow-x: hidden;overflow-y: scroll;">
+        {% for i in user %}
+            <div class="col-md-3">
+              <a href="{% url 'user_pro' %}?cvt={{i.id}}" style="text-decoration: none;color: black;">
+                  <div class="card" style="width: 18rem;"  id="car1">
+                    <img src="{{i.image.url}}" class="card-img-top" alt="..." id="car1" style="width: fit-content;height: 10rem;margin: auto;">
+                    <div class="card-body">
+                      <h6 class="card-title">{{i.name}}</h6>
+                      <p class="card-text">{{i.address}}</p>
+                      <p>{{i.user.email}}</p>
+                      <p class="text-end"> Active on : {{i.date|date}}</p>
+                      
+                    
+                      
+                      
+                    </div>
+                  </div></a></div>
+                  {% endfor %}
+                </div>
+            </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src = "https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src ="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src = "https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+
+$(document).ready(function(){
+  $("#probtn").click(function(){
+
+    $("#div1").fadeToggle("slow");
+    $("#div2").fadeOut("slow");
+  
+  });
+});
+
+$(document).ready(function(){
+  $("#probtn2").click(function(){
+    $("#div1").fadeOut("slow");
+    $("#div2").fadeToggle("slow");
+  
+  });
+});
+  </script>
+
+<script>
+  
+</script>
+
+<script>
+    $(function(){ 
+            $("#arch").autocomplete({
+                source:
+                "{% url 'ser' %}"
+
+            });
+        });
+</script>
+ 
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>Home</title>
+
+    <style>
+        .card:hover{
+            background-color: bisque;
+            transition: .7s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+   
+        {% include 'head.html' %} 
+          
+<h3 class="text-center mt-4">properties</h3>
+          <div class="row mt-4">
+            <h4 class="text-center">Available {{s}} /-</h4>
+            {% if pro %}
+{% for i in pro %}
+    <div class="col-md-3">
+
+          <div class="card" style="width: 18rem;">
+            <img src="{{i.pro.image.url}}" class="card-img-top" alt="..." style="width: 100%;height: 10rem;">
+            <div class="card-body">
+              <h6 class="card-title">{{i.pro.name}}</h6>
+              <p class="card-text">{{i.pro.address}}</p>
+              <p class="card-text">Loc : {{i.pro.location}} </p>
+              <p class="text-end"> Add on : {{i.pro.add_date|date}}</p>
+            
+             
+              <a href="{% url 'pro_view' %}?xnt={{i.pro.id}}" class="btn btn-primary" style="margin-left: 4.5rem;">View More</a>
+            </div>
+          </div></div>
+          {% endfor %}
+          {% else %}
+          <div class="row"><h4 class="text-center">Currently Not Available<br>Coming soon..</h4></div>
+          {% endif %}
+        </div>
+    </div>
+</body>
+</html>

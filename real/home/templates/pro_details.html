@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+ 
+
+    <title>admin</title>
+
+    <style>
+            #car:hover{
+            background-color: bisque;
+            transition: .7s;
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    {% include 'head.html' %} 
+  <h3 class="text-center">Full Details</h3>
+
+  {% if pro %}
+   <div class="container con">
+    <div class="row">
+    <div class="col-md-6">
+      <img src="{{pro.image.url}}" class="im">
+      <h3 class="text-center mt-2">
+        {{pro.name}}
+      </h3>
+    </div>
+    <div class="col-md-6 mt-md-4">
+     <h4>Adddress :  {{pro.address}}</h4>  
+     <h5>Location :  {{pro.location}}</h5> 
+     <h6>Features :  {{pro.features}}</h6> 
+     <h4 class="text-center">
+      Availability
+     </h4>
+     <Table class="mx-auto">
+      <tr><th>
+        Type 
+      </th><th>Cost </th>
+ </tr>
+      <hr>
+      {% for i in pro.pr.all %}
+      <tr>
+        <td>{{i.unit_type}}  :</td>
+      
+        <td>₹ {{i.rent_cost}}</td>
+       
+      </tr>
+      {% endfor %}
+      
+      
+     </Table>
+     
+    </div>
+   
+  </div>
+<hr>
+  <div class="row">
+    <h2 class="text-center">On Tenants (Total : {{pro.prop.count}})</h2>
+   
+{% for i in pro.prop.all %}
+    <div class="col-md-4 mb-3">
+      <div class="card" style="width: 18rem;" id="car">
+        <a href="{% url 'user_pro' %}?cvt={{i.tenant.id}}" style="text-decoration: none;color: black;">
+        <img src="{{i.tenant.image.url}}" class="card-img-top" alt="..." >
+        <div class="card-body">
+          <h6 class="card-title">{{i.tenant}}</h6>
+          <p class="card-text">{{i.unit}}</p>
+          <p class="card-text">Address : {{i.tenant.address}} </p>
+          <p class="card-text">Rent Date : {{i.rent_date}}<sup>th</sup> </p>
+          <p class="card-text">Aggrement Date : {{i.aggr_date}} </p>
+        
+        
+
+        </div>
+      </a>
+      </div>
+    </div>
+{% endfor %}
+  </div>
+  </div>
+  {% else %}
+
+<h5 class="text-center text-danger mt-5">{{msg}}</h5>
+  {% endif %}
+   </div>
+</body>
+</html>
